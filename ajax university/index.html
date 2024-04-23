@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Search</title>
+    <script>
+        function fetchUniversities() {
+            var country = document.getElementById("country").value;
+
+            // Fetch data from API
+            fetch("http://universities.hipolabs.com/search?country=" + country)
+                .then(response => response.json())
+                .then(data => {
+                    // Process data and display university names
+                    var universities = document.getElementById("universities");
+                    universities.innerHTML = ""; // Clear previous results
+
+                    if (data.length === 0) {
+                        universities.innerHTML = "No universities found in " + country;
+                    } else {
+                        data.forEach(university => {
+                            universities.innerHTML += "<li>" + university.name + "</li>";
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <h2>Search Universities by Country</h2>
+    <form>
+        <label for="country">Enter Country Name:</label>
+        <input type="text" id="country" name="country">
+        <button type="button" onclick="fetchUniversities()">Search</button>
+    </form>
+
+    <h3>Universities:</h3>
+    <ul id="universities"></ul>
+</body>
+</html>

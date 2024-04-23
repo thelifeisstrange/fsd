@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0d0d0d; /* Dark background color */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #292929; /* Dark container background color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #fdf7f7;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"],
+        textarea { /* Apply styling for all text inputs and textarea */
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #f6f0f0;
+            border-radius: 5px;
+            color: #fff;
+            box-sizing: border-box;
+            background-color: #1f1f1f; /* Dark input background color */
+            resize: vertical; /* Allow vertical resizing of textarea */
+        }
+        textarea { /* Additional styling for textarea */
+            height: 100px; /* Set default height */
+        }
+        input[type="submit"] {
+            background-color: #09f26e;
+            color: #0d0d0d;
+            font-weight: bold;
+            border: none;
+            display: flex;
+            justify-content: center;    
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #19f294;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Student Feedback Form</h2>
+        <form id="feedbackForm" action="#" method="post" onsubmit="return validateForm()">
+            <p>All Fields are mandatory*</p>
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" pattern="[0-9]{10}" required>
+                <span class="error-message" id="mobileError"></span>
+            </div>
+            <div class="form-group">
+                <label for="class">Class:</label>
+                <input type="text" id="class" name="class" required>
+            </div>
+            <div class="form-group">
+                <label for="branch">Branch:</label>
+                <input type="text" id="branch" name="branch" required>
+            </div>
+            <div class="form-group">
+                <label for="feedbackmessage">Describe your Feedback:</label>
+                <textarea id="feedbackmessage" name="feedbackmessage" rows="3" required></textarea>
+            </div>            
+            <div class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError"></span>
+            </div>
+            
+            <input type="submit" value="Submit">
+        
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            var form = document.getElementById("feedbackForm");
+            var elements = form.elements;
+            var errors = [];
+
+            for (var i = 0; i < elements.length; i++) {
+                var field = elements[i];
+
+                if (field.type !== "submit" && field.type !== "button") {
+                    if (!field.value.trim()) {
+                        errors.push(field.name + " is required");
+                    }
+
+                    if (field.type === "tel") {
+                        if (!field.value.match(/^\d{10}$/)) {
+                            errors.push("Mobile Number should be 10 digits");
+                        }
+                    }
+
+                    if (field.type === "email") {
+                        if (!field.value.match(/^\S+@\S+\.\S+$/)) {
+                            errors.push("Email is invalid");
+                        }
+                    }
+                }
+            }
+
+            if (errors.length > 0) {
+                var errorMessage = errors.join("\n");
+                alert(errorMessage);
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>
